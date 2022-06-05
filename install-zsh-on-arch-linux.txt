@@ -1,0 +1,71 @@
+                                            install zsh on arch linux
+
+
+
+
+---->>>   update and upgrade the system   <<<----
+
+sudo pacman -Syu
+
+---->>>   install zsh & rnager,git and wget   <<<----
+
+sudo pacman -S zsh zsh-completion ranger git wget
+
+---->>>   make directorys   <<<----
+
+mkdir -p ~/.config/zsh/plugins && mkdir -p ~/.cache/zsh
+
+---->>>   Move '.zshrc' file to '$HOME/.config/zsh'   <<<----
+
+echo -e '\n\n# zsh\nexport ZDOTDIR="$HOME/.config/zsh"' >> ~/.profile
+
+---->>>   Download Fonts   <<<----
+
+wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf -P ./MesloLGS-NF
+
+---->>>   Install Fonts   <<<----
+
+sudo mv MesloLGS-NF /usr/share/fonts
+
+---->>>   Set the shell font   <<<----
+
+(set your terminale font to MesloLGS NF Regular)
+
+---->>>   LOGOUT and LOGIN   <<<----
+
+(logout the system)
+
+---->>>   Run zsh and configure it   <<<----
+
+zsh
+
+---->>>   Download Plugins   <<<----
+
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/plugins/autosuggestions && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/plugins/syntax-highlighting && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.config/zsh/plugins/powerlevel10k
+
+---->>>   Install Plugins   <<<----
+
+echo -e '\n\n# Plugins\nsource ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme\nsource ~/.config/zsh/plugins/autosuggestions/zsh-autosuggestions.zsh\nsource ~/.config/zsh/plugins/syntax-highlighting/zsh-syntax-highlighting.zsh' >> ~/.config/zsh/.zshrc
+
+---->>>   add ranger to zsh   <<<----
+
+echo -e '\n\n# ranger-cd\nfunction ranger-cd {\n    tempfile="$(mktemp -t tmp.XXXXXX)"\n    /usr/bin/ranger --choosedir="$tempfile" "${@:-$(pwd)}"\n    test -f "$tempfile" &&\n    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then\n        cd -- "$(cat "$tempfile")"\n    fi  \n    rm -f -- "$tempfile"\n}\n\n#ranger-cd will run by alt+r\nbindkey -s "^\\er" "ranger-cd\\n"' >> ~/.config/zsh/.zshrc
+
+---->>>   set ZSH as the default shell   <<<----
+
+==> (to user)
+
+chsh -s /bin/zsh $USER
+
+==> (to root)
+
+sudo -s
+
+chsh -s /bin/zsh root
+
+exit
+
+---->>>   reboot   <<<----
+
+reboot your system or LOGOUT and LOGIN
+
